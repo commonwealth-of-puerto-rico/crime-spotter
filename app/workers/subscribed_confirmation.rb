@@ -5,17 +5,18 @@ class SubscribedConfirmation
 
 	def self.perform(mail_data)
 		# system("echo 'hello #{mail}' > /Users/aero/crime-spotter/CONFIRMED")
+    # start logger
+    log = Logger.new 'log/resque.log'
 
-   log = Logger.new 'log/resque.log'
-   log.debug "starting to send email."
     data = { :to => 'levipr@gmail.com', 
              :from => 'crimespotterpr@gmail.com',
              :subject => "Reporte Mensual",
-             :text => 'A continuación su reporte mensual para su vecindad:',
+             :text => 'A continuación reporte mensual para su vecindad:',
              :html => '<b>Aqui va la grafica</b>'
            }
+    log.debug "Starting to send email to #{data[:to]}"           
     result = self.send_mail(data)
-    log.debug "sent email, with result: #{result}"    
+    log.debug "Email result: #{result}"    
 	end
 	
 	def self.send_mail(data)
