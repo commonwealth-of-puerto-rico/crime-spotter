@@ -1,4 +1,7 @@
 $(document).ready(function(){
+
+	/*------------------------begin Leaflet map set up-----------------------------*/
+
 	L.Icon.Default.imagePath = "/assets";
 
   	var map = L.map('map').setView([18.466889,-66.105929], 13); 
@@ -9,4 +12,8 @@ $(document).ready(function(){
 	}).addTo(map);
 
 	L.marker([18.466889,-66.105929]).addTo(map);
+
+	/*------------------------end Leaflet map set up-----------------------------*/
+
+
 });
