@@ -16,4 +16,7 @@ $(document).ready(function(){
 	/*------------------------end Leaflet map set up-----------------------------*/
 
 
+	$('.datepicker').datepicker();
+
+	$('.multiselect').multiselect();
 });

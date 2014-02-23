@@ -15,5 +15,7 @@
 //= require turbolinks
 //= require bootstrap
 //= require leaflet
+//= require bootstrap-datepicker
+//= require bootstrap-select
+//= require bootstrap-multiselect
 //= require_tree .
-

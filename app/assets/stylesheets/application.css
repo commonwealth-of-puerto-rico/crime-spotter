@@ -12,8 +12,15 @@
  *= require_tree .
  *= require bootstrap
  *= require leaflet
+ *= require datepicker
+ *= require bootstrap-select
+ *= require bootstrap-multiselect
  */
 
 .map{
 	height: 350px; 
+}
+
+.navbar{
+	color: rgb(0,0,0);
 }
