@@ -182,8 +182,63 @@
           spotCrimes();
       }
 
+
+
+
+////////// BEGIN of WeMustFixThis PATCH
+
+      // Client-side patch, to comply with GG's request to filter out to the last 30 days
+      // we'll remove this once compass is updated
+      function cleanUpDateHack(tmp){
+        var i = tmp["features"].length;
+        // we can't use for loop, because as we splice, the length index changes and breaks
+        // so using while, we can iterate through the original length and splice any 
+        // crimes that do not match our filter   
+
+        console.log("Special GG filter is active.");   
+        var deleted = 0;
+        var total = i;
+
+        while(i--) {
+            var fecha = tmp["features"][i]["properties"]["fecha_delito"];
+            fecha = fecha.toString();
+            // only if this is properly written date yyyy-mm-dd
+            if(fecha.length == 10) {
+                // Ugly hack, I know, but hey it works for prototype demo. Cheers:
+                // If month is march, we're good, since we expect this dataset is from
+                // Jan to March 2013. So we skip 2013-xx-dd exatracting xx and if its not 
+                // march, we drop it like its hot.
+                if (fecha.slice(5, 7) != "03") 
+                {
+                    tmp["features"].splice(i, 1); // delete this index completely
+                    deleted++;
+                    // console.log("found "+ fecha.slice(5,6) +""); // delete this index completely)
+                }
+            }
+            else {
+              // delete incorrect date items
+              console.log("filtering out");
+              deleted++;
+              tmp["features"].splice(i, 1); // delete this index completely
+            }
+        }
+
+        console.log("Deleted: "+ deleted+" from "+ total);
+
+        return tmp;
+
+      }
+
+
+////////// END
+
+
       // Clean up the server json crime data, by filtering per selected user options
-      function purgeCrimes(tmp) {        
+      function purgeCrimes(tmp) {     
+
+        // EMBEDDING THE MR. UGLY PATCH HERE - only delete this line after you're done
+        tmp = cleanUpDateHack(tmp);
+
         var i = tmp["features"].length;
         // we can't use for loop, because as we splice, the length index changes and breaks
         // so using while, we can iterate through the original length and splice any 
