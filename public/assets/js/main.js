@@ -460,6 +460,23 @@ if (navigator.appName == "Microsoft Internet Explorer") {
 //**************************************************************************
 
 //Events handler
+
+var LeafIcon = L.Icon.extend({
+    options: {
+        iconSize:     [32, 32],
+        iconAnchor:   [16, 16],
+    }
+});
+
+var aggressionIcon = new LeafIcon({iconUrl: '/assets/img/marker_aggression.png'});
+var breakInIcon = new LeafIcon({iconUrl: '/assets/img/marker_break_in.png'});
+var carjackingIcon = new LeafIcon({iconUrl: '/assets/img/marker_carjacking.png'});
+var fireIcon = new LeafIcon({iconUrl: '/assets/img/marker_fire.png'});
+var murderIcon = new LeafIcon({iconUrl: '/assets/img/marker_murder.png'});
+var rapeIcon = new LeafIcon({iconUrl: '/assets/img/marker_rape.png'});
+var theftIcon = new LeafIcon({iconUrl: '/assets/img/marker_theft.png'});
+var misappropriationIcon = new LeafIcon({iconUrl: '/assets/img/marker_misappropriation.png'});
+
 map.on('dragend', function(e){
   fecthCrimes();
 });
@@ -482,22 +499,21 @@ function fecthCrimes(){
   $.getJSON(request, function(data) {
     data = data['features'];
     L.geoJson(data, {
-    style: function(feature) {
+      pointToLayer: function (feature, latlng) {
         switch (feature.properties.delito_type) {
-            case 1: return {color: "#ff0000"};
-            case 2: return {color: "#0000ff"};
-            case 3: return {color: "#000000"};
-            case 4: return {color: "#00FF00"};
-            case 5: return {color: "#AA0000"};
-            case 6: return {color: "#BB0000"};
-            case 7: return {color: "#CC0000"};
+          case 1: return L.marker(latlng, {icon: murderIcon});
+          case 2: return L.marker(latlng, {icon: rapeIcon});
+          case 3: return L.marker(latlng, {icon: theftIcon});
+          case 4: return L.marker(latlng, {icon: aggressionIcon});
+          case 5: return L.marker(latlng, {icon: breakInIcon});
+          case 6: return L.marker(latlng, {icon: misappropriationIcon});
+          case 7: return L.marker(latlng, {icon: carjackingIcon});
+          case 8: return L.marker(latlng, {icon: fireIcon});
         }
-    }}).addTo(map);
+      }
+    }).addTo(map);
 
   });
 
 }
-
-
-
 
