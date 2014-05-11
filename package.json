@@ -1,0 +1,10 @@
+{
+    "name": "bootleaf-node",
+    "version": "0.0.1",
+    "description": "bootleaf-node",
+    "main": "server.js",
+    "author": "rcrivera",
+    "dependencies": {
+        "express": "3.0"
+    }
+}
