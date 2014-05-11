@@ -1,4 +1,4 @@
-var map, boroughSearch = [],
+var map, municipalitieSearch = [],
     theaterSearch = [],
     museumSearch = [];
 
@@ -23,7 +23,7 @@ var mapquestHYB = L.layerGroup([L.tileLayer("http://{s}.mqcdn.com/tiles/1.0.0/sa
 })]);
 
 /* Overlay Layers */
-var boroughs = L.geoJson(null, {
+var municipalities = L.geoJson(null, {
   style: function (feature) {
     return {
       color: "black",
@@ -33,16 +33,16 @@ var boroughs = L.geoJson(null, {
     };
   },
   onEachFeature: function (feature, layer) {
-    boroughSearch.push({
-      name: layer.feature.properties.BoroName,
-      source: "Boroughs",
+    municipalitieSearch.push({
+      name: layer.feature.properties.NAME,
+      source: "municipalities",
       id: L.stamp(layer),
       bounds: layer.getBounds()
     });
   }
 });
-$.getJSON("data/boroughs.geojson", function (data) {
-  boroughs.addData(data);
+$.getJSON("data/municipalities.geojson", function (data) {
+  municipalities.addData(data);
 });
 
 var subwayLines = L.geoJson(null, {
@@ -259,7 +259,7 @@ $.getJSON("data/DOITT_MUSEUM_01_13SEPT2010.geojson", function (data) {
 
 map = L.map("map", {
   zoom: 10,
-  center: [40.702222, -73.979378],
+  center: [18.258720, -66.473524],
   layers: [mapquestOSM]
 });
 
@@ -277,7 +277,7 @@ var baseLayers = {
 };
 
 var overlays = {
-  "Boroughs": boroughs,
+  //"Pueblos": municipalities,
   "Subway Lines": subwayLines,
   "<img src='assets/img/theater.png' width='24' height='28'>&nbsp;Theaters": theaters,
   "<img src='assets/img/museum.png' width='24' height='28'>&nbsp;Museums": museums
@@ -288,7 +288,7 @@ var layerControl = L.control.layers(baseLayers, overlays, {
 }).addTo(map);
 
 /* Add overlay layers to map after defining layer control to preserver order */
-map.addLayer(boroughs).addLayer(theaters);
+map.addLayer(municipalities).addLayer(theaters);
 
 var sidebar = L.control.sidebar("sidebar", {
   closeButton: true,
@@ -302,16 +302,16 @@ $("#searchbox").click(function () {
 
 /* Typeahead search functionality */
 $(document).one("ajaxStop", function () {
-  map.fitBounds(boroughs.getBounds());
+  map.fitBounds(municipalities.getBounds());
   $("#loading").hide();
 
-  var boroughsBH = new Bloodhound({
-    name: "Boroughs",
+  var municipalitiesBH = new Bloodhound({
+    name: "municipalities",
     datumTokenizer: function (d) {
       return Bloodhound.tokenizers.whitespace(d.name);
     },
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    local: boroughSearch,
+    local: municipalitieSearch,
     limit: 10
   });
 
@@ -365,7 +365,7 @@ $(document).one("ajaxStop", function () {
     },
     limit: 10
   });
-  boroughsBH.initialize();
+  municipalitiesBH.initialize();
   theatersBH.initialize();
   museumsBH.initialize();
   geonamesBH.initialize();
@@ -376,11 +376,11 @@ $(document).one("ajaxStop", function () {
     highlight: true,
     hint: false
   }, {
-    name: "Boroughs",
+    name: "municipalities",
     displayKey: "name",
-    source: boroughsBH.ttAdapter(),
+    source: municipalitiesBH.ttAdapter(),
     templates: {
-      header: "<h4 class='typeahead-header'>Boroughs</h4>"
+      header: "<h4 class='typeahead-header'>Pueblos</h4>"
     }
   }, {
     name: "Theaters",
@@ -404,7 +404,7 @@ $(document).one("ajaxStop", function () {
       header: "<h4 class='typeahead-header'><img src='assets/img/globe.png' width='25' height='25'>&nbsp;GeoNames</h4>"
     }
   }).on("typeahead:selected", function (obj, datum) {
-    if (datum.source === "Boroughs") {
+    if (datum.source === "municipalities") {
       map.fitBounds(datum.bounds);
     }
     if (datum.source === "Theaters") {
@@ -456,3 +456,48 @@ if (navigator.appName == "Microsoft Internet Explorer") {
     }
   });
 }
+
+//**************************************************************************
+
+//Events handler
+map.on('dragend', function(e){
+  fecthCrimes();
+});
+
+function fecthCrimes(){
+  var northEast_bound = map.getBounds()['_northEast'];
+  var southWest_bound = map.getBounds()['_southWest'];
+
+  var northEast = '['+[northEast_bound['lng'],northEast_bound['lat']]+']';
+  var northWest = '['+[southWest_bound['lng'],northEast_bound['lat']]+']';
+  var southWest = '['+[southWest_bound['lng'],southWest_bound['lat']]+']';
+  var southEast = '['+[northEast_bound['lng'],southWest_bound['lat']]+']';
+
+  var polygon = '['+northEast+','+northWest+','+southWest+','+southEast+']';
+  var from_date = '2013-01-01';
+  var to_date = '2014-04-22';
+
+  var request = 'http://crimenes-api.herokuapp.com/crimes?polygon='+polygon+'&from_date='+from_date+'&to_date='+to_date;
+  
+  $.getJSON(request, function(data) {
+    data = data['features'];
+    L.geoJson(data, {
+    style: function(feature) {
+        switch (feature.properties.delito_type) {
+            case 1: return {color: "#ff0000"};
+            case 2: return {color: "#0000ff"};
+            case 3: return {color: "#000000"};
+            case 4: return {color: "#00FF00"};
+            case 5: return {color: "#AA0000"};
+            case 6: return {color: "#BB0000"};
+            case 7: return {color: "#CC0000"};
+        }
+    }}).addTo(map);
+
+  });
+
+}
+
+
+
+
