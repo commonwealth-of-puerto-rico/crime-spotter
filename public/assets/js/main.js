@@ -1,6 +1,4 @@
-var map, municipalitieSearch = [],
-    theaterSearch = [],
-    museumSearch = [];
+var map, municipalitieSearch = []
 
 /* Basemap Layers */
 var mapquestOSM = L.tileLayer("http://{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png", {
@@ -45,148 +43,26 @@ $.getJSON("data/municipalities.geojson", function (data) {
   municipalities.addData(data);
 });
 
-var subwayLines = L.geoJson(null, {
-  style: function (feature) {
-    if (feature.properties.route_id === "1" || feature.properties.route_id === "2" || feature.properties.route_id === "3") {
-      return {
-        color: "#ff3135",
-        weight: 3,
-        opacity: 1
-      };
-    }
-    if (feature.properties.route_id === "4" || feature.properties.route_id === "5" || feature.properties.route_id === "6") {
-      return {
-        color: "#009b2e",
-        weight: 3,
-        opacity: 1
-      };
-    }
-    if (feature.properties.route_id === "7") {
-      return {
-        color: "#ce06cb",
-        weight: 3,
-        opacity: 1
-      };
-    }
-    if (feature.properties.route_id === "A" || feature.properties.route_id === "C" || feature.properties.route_id === "E" || feature.properties.route_id === "SI" || feature.properties.route_id === "H") {
-      return {
-        color: "#fd9a00",
-        weight: 3,
-        opacity: 1
-      };
-    }
-    if (feature.properties.route_id === "Air") {
-      return {
-        color: "#ffff00",
-        weight: 3,
-        opacity: 1
-      };
-    }
-    if (feature.properties.route_id === "B" || feature.properties.route_id === "D" || feature.properties.route_id === "F" || feature.properties.route_id === "M") {
-      return {
-        color: "#ffff00",
-        weight: 3,
-        opacity: 1
-      };
-    }
-    if (feature.properties.route_id === "G") {
-      return {
-        color: "#9ace00",
-        weight: 3,
-        opacity: 1
-      };
-    }
-    if (feature.properties.route_id === "FS" || feature.properties.route_id === "GS") {
-      return {
-        color: "#6e6e6e",
-        weight: 3,
-        opacity: 1
-      };
-    }
-    if (feature.properties.route_id === "J" || feature.properties.route_id === "Z") {
-      return {
-        color: "#976900",
-        weight: 3,
-        opacity: 1
-      };
-    }
-    if (feature.properties.route_id === "L") {
-      return {
-        color: "#969696",
-        weight: 3,
-        opacity: 1
-      };
-    }
-    if (feature.properties.route_id === "N" || feature.properties.route_id === "Q" || feature.properties.route_id === "R") {
-      return {
-        color: "#ffff00",
-        weight: 3,
-        opacity: 1
-      };
-    }
-  },
-  onEachFeature: function (feature, layer) {
-    if (feature.properties) {
-      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Division</th><td>" + feature.properties.Division + "</td></tr>" + "<tr><th>Line</th><td>" + feature.properties.Line + "</td></tr>" + "<table>";
-      if (document.body.clientWidth <= 767) {
-        layer.on({
-          click: function (e) {
-            $("#feature-title").html(feature.properties.Line);
-            $("#feature-info").html(content);
-            $("#featureModal").modal("show");
-          }
-        });
-
-      } else {
-        layer.bindPopup(content, {
-          maxWidth: "auto",
-          closeButton: false
-        });
-      }
-    }
-    layer.on({
-      mouseover: function (e) {
-        var layer = e.target;
-        layer.setStyle({
-          weight: 3,
-          color: "#00FFFF",
-          opacity: 1
-        });
-        if (!L.Browser.ie && !L.Browser.opera) {
-          layer.bringToFront();
-        }
-      },
-      mouseout: function (e) {
-        subwayLines.resetStyle(e.target);
-      }
-    });
-  }
-});
-$.getJSON("data/subways.geojson", function (data) {
-  subwayLines.addData(data);
-});
-
-var theaters = L.geoJson(null, {
+var murders = L.geoJson(null, {
   pointToLayer: function (feature, latlng) {
     return L.marker(latlng, {
       icon: L.icon({
-        iconUrl: "assets/img/theater.png",
+        iconUrl: "assets/img/marker_murder.png",
         iconSize: [24, 28],
         iconAnchor: [12, 28],
         popupAnchor: [0, -25]
       }),
-      title: feature.properties.NAME,
+      title: "Asesinato",
       riseOnHover: true
     });
   },
   onEachFeature: function (feature, layer) {
     if (feature.properties) {
-      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.NAME + "</td></tr>" + "<tr><th>Phone</th><td>" + feature.properties.TEL + "</td></tr>" + "<tr><th>Address</th><td>" + feature.properties.ADDRESS1 + "</td></tr>" + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
-
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Delito</th><td>" + "Asesinato"+ "</td></tr>" + "<tr><th>Fecha</th><td>" + feature.properties.time + "</td></tr>" + "</table>";
       if (document.body.clientWidth <= 767) {
         layer.on({
           click: function (e) {
-            $("#feature-title").html(feature.properties.NAME);
+            $("#feature-title").html("Asesinato");
             $("#feature-info").html(content);
             $("#featureModal").modal("show");
           }
@@ -198,40 +74,30 @@ var theaters = L.geoJson(null, {
           closeButton: false
         });
       }
-      theaterSearch.push({
-        name: layer.feature.properties.NAME,
-        source: "Theaters",
-        id: L.stamp(layer),
-        lat: layer.feature.geometry.coordinates[1],
-        lng: layer.feature.geometry.coordinates[0]
-      });
     }
   }
 });
-$.getJSON("data/DOITT_THEATER_01_13SEPT2010.geojson", function (data) {
-  theaters.addData(data);
-});
 
-var museums = L.geoJson(null, {
+var rapes = L.geoJson(null, {
   pointToLayer: function (feature, latlng) {
     return L.marker(latlng, {
       icon: L.icon({
-        iconUrl: "assets/img/museum.png",
+        iconUrl: "assets/img/marker_rape.png",
         iconSize: [24, 28],
         iconAnchor: [12, 28],
         popupAnchor: [0, -25]
       }),
-      title: feature.properties.NAME,
+      title: "Violación",
       riseOnHover: true
     });
   },
   onEachFeature: function (feature, layer) {
     if (feature.properties) {
-      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.NAME + "</td></tr>" + "<tr><th>Phone</th><td>" + feature.properties.TEL + "</td></tr>" + "<tr><th>Address</th><td>" + feature.properties.ADRESS1 + "</td></tr>" + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Delito</th><td>" + "Violación"+ "</td></tr>" + "<tr><th>Fecha</th><td>" + feature.properties.time + "</td></tr>" + "</table>";
       if (document.body.clientWidth <= 767) {
         layer.on({
           click: function (e) {
-            $("#feature-title").html(feature.properties.NAME);
+            $("#feature-title").html("Violación");
             $("#feature-info").html(content);
             $("#featureModal").modal("show");
           }
@@ -243,22 +109,247 @@ var museums = L.geoJson(null, {
           closeButton: false
         });
       }
-      museumSearch.push({
-        name: layer.feature.properties.NAME,
-        source: "Museums",
-        id: L.stamp(layer),
-        lat: layer.feature.geometry.coordinates[1],
-        lng: layer.feature.geometry.coordinates[0]
-      });
     }
   }
 });
-$.getJSON("data/DOITT_MUSEUM_01_13SEPT2010.geojson", function (data) {
-  museums.addData(data);
+
+var thefts = L.geoJson(null, {
+  pointToLayer: function (feature, latlng) {
+    return L.marker(latlng, {
+      icon: L.icon({
+        iconUrl: "assets/img/marker_theft.png",
+        iconSize: [24, 28],
+        iconAnchor: [12, 28],
+        popupAnchor: [0, -25]
+      }),
+      title: "Robo",
+      riseOnHover: true
+    });
+  },
+  onEachFeature: function (feature, layer) {
+    if (feature.properties) {
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Delito</th><td>" + "Robo"+ "</td></tr>" + "<tr><th>Fecha</th><td>" + feature.properties.time + "</td></tr>" + "</table>";
+      if (document.body.clientWidth <= 767) {
+        layer.on({
+          click: function (e) {
+            $("#feature-title").html("Robo");
+            $("#feature-info").html(content);
+            $("#featureModal").modal("show");
+          }
+        });
+
+      } else {
+        layer.bindPopup(content, {
+          maxWidth: "auto",
+          closeButton: false
+        });
+      }
+    }
+  }
+});
+
+var aggressions = L.geoJson(null, {
+  pointToLayer: function (feature, latlng) {
+    return L.marker(latlng, {
+      icon: L.icon({
+        iconUrl: "assets/img/marker_aggression.png",
+        iconSize: [24, 28],
+        iconAnchor: [12, 28],
+        popupAnchor: [0, -25]
+      }),
+      title: "Agresión Agravada",
+      riseOnHover: true
+    });
+  },
+  onEachFeature: function (feature, layer) {
+    if (feature.properties) {
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Delito</th><td>" + "Agresión Agravada"+ "</td></tr>" + "<tr><th>Fecha</th><td>" + feature.properties.time + "</td></tr>" + "</table>";
+      if (document.body.clientWidth <= 767) {
+        layer.on({
+          click: function (e) {
+            $("#feature-title").html("Agresión Agravada");
+            $("#feature-info").html(content);
+            $("#featureModal").modal("show");
+          }
+        });
+
+      } else {
+        layer.bindPopup(content, {
+          maxWidth: "auto",
+          closeButton: false
+        });
+      }
+    }
+  }
+});
+
+var breakins = L.geoJson(null, {
+  pointToLayer: function (feature, latlng) {
+    return L.marker(latlng, {
+      icon: L.icon({
+        iconUrl: "assets/img/marker_break_in.png",
+        iconSize: [24, 28],
+        iconAnchor: [12, 28],
+        popupAnchor: [0, -25]
+      }),
+      title: "Escalamiento",
+      riseOnHover: true
+    });
+  },
+  onEachFeature: function (feature, layer) {
+    if (feature.properties) {
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Delito</th><td>" + "Escalamiento"+ "</td></tr>" + "<tr><th>Fecha</th><td>" + feature.properties.time + "</td></tr>" + "</table>";
+      if (document.body.clientWidth <= 767) {
+        layer.on({
+          click: function (e) {
+            $("#feature-title").html("Escalamiento");
+            $("#feature-info").html(content);
+            $("#featureModal").modal("show");
+          }
+        });
+
+      } else {
+        layer.bindPopup(content, {
+          maxWidth: "auto",
+          closeButton: false
+        });
+      }
+    }
+  }
+});
+
+var misappropriations = L.geoJson(null, {
+  pointToLayer: function (feature, latlng) {
+    return L.marker(latlng, {
+      icon: L.icon({
+        iconUrl: "assets/img/marker_misappropriation.png",
+        iconSize: [24, 28],
+        iconAnchor: [12, 28],
+        popupAnchor: [0, -25]
+      }),
+      title: "Apropiación Ilegal",
+      riseOnHover: true
+    });
+  },
+  onEachFeature: function (feature, layer) {
+    if (feature.properties) {
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Delito</th><td>" + "Apropiación Ilegal"+ "</td></tr>" + "<tr><th>Fecha</th><td>" + feature.properties.time + "</td></tr>" + "</table>";
+      if (document.body.clientWidth <= 767) {
+        layer.on({
+          click: function (e) {
+            $("#feature-title").html("Apropiación Ilegal");
+            $("#feature-info").html(content);
+            $("#featureModal").modal("show");
+          }
+        });
+
+      } else {
+        layer.bindPopup(content, {
+          maxWidth: "auto",
+          closeButton: false
+        });
+      }
+    }
+  }
+});
+
+var carjackings = L.geoJson(null, {
+  pointToLayer: function (feature, latlng) {
+    return L.marker(latlng, {
+      icon: L.icon({
+        iconUrl: "assets/img/marker_carjacking.png",
+        iconSize: [24, 28],
+        iconAnchor: [12, 28],
+        popupAnchor: [0, -25]
+      }),
+      title: "Vehículo Hurtado",
+      riseOnHover: true
+    });
+  },
+  onEachFeature: function (feature, layer) {
+    if (feature.properties) {
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Delito</th><td>" + "Vehículo Hurtado"+ "</td></tr>" + "<tr><th>Fecha</th><td>" + feature.properties.time + "</td></tr>" + "</table>";
+      if (document.body.clientWidth <= 767) {
+        layer.on({
+          click: function (e) {
+            $("#feature-title").html("Vehículo Hurtado");
+            $("#feature-info").html(content);
+            $("#featureModal").modal("show");
+          }
+        });
+
+      } else {
+        layer.bindPopup(content, {
+          maxWidth: "auto",
+          closeButton: false
+        });
+      }
+    }
+  }
+});
+
+var fires = L.geoJson(null, {
+  pointToLayer: function (feature, latlng) {
+    return L.marker(latlng, {
+      icon: L.icon({
+        iconUrl: "assets/img/marker_fire.png",
+        iconSize: [24, 28],
+        iconAnchor: [12, 28],
+        popupAnchor: [0, -25]
+      }),
+      title: "Fuego",
+      riseOnHover: true
+    });
+  },
+  onEachFeature: function (feature, layer) {
+    if (feature.properties) {
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Delito</th><td>" + "Fuego"+ "</td></tr>" + "<tr><th>Fecha</th><td>" + feature.properties.time + "</td></tr>" + "</table>";
+      if (document.body.clientWidth <= 767) {
+        layer.on({
+          click: function (e) {
+            $("#feature-title").html("Fuego");
+            $("#feature-info").html(content);
+            $("#featureModal").modal("show");
+          }
+        });
+
+      } else {
+          layer.bindPopup(content, {
+          maxWidth: "auto",
+          closeButton: false
+        });
+      }
+    }
+  }
+}); 
+
+
+
+var markers = L.markerClusterGroup();
+var crime_collection_request = "http://crimenes-api.herokuapp.com/crimes?polygon=[[-64.500732421875,19.06990562064469],[-68.01361083984375,19.06990562064469],[-68.01361083984375,17.368988699356095],[-64.500732421875,17.368988699356095]]&from_date=2013-01-01&to_date=2014-04-22&is_geojson=true";
+$.getJSON(crime_collection_request, function (data) {
+  murders.addData(data['murder']);
+  rapes.addData(data['rape']);
+  thefts.addData(data['theft']);
+  aggressions.addData(data['aggression']);
+  breakins.addData(data['break_in']);
+  misappropriations.addData(data['misappropriation']);
+  carjackings.addData(data['carjacking']);
+  fires.addData(data['fire']);
+});
+
+
+
+
+
+
+var heatmap = L.heatLayer(null, {radius: 20, blur:20, max:0.4,maxZoom:18});
+var initial_request = "http://crimenes-api.herokuapp.com/crimes?polygon=[[-64.500732421875,19.06990562064469],[-68.01361083984375,19.06990562064469],[-68.01361083984375,17.368988699356095],[-64.500732421875,17.368988699356095]]&from_date=2013-01-01&to_date=2014-04-22&is_geojson=false";
+$.getJSON(initial_request, function(data) {
+  heatmap.setLatLngs(data);
 });
 
 map = L.map("map", {
-  zoom: 10,
   center: [18.258720, -66.473524],
   layers: [mapquestOSM]
 });
@@ -277,18 +368,79 @@ var baseLayers = {
 };
 
 var overlays = {
+  'Ver "Heatmap"': heatmap,
   //"Pueblos": municipalities,
-  "Subway Lines": subwayLines,
-  "<img src='assets/img/theater.png' width='24' height='28'>&nbsp;Theaters": theaters,
-  "<img src='assets/img/museum.png' width='24' height='28'>&nbsp;Museums": museums
+  "<img src='assets/img/marker_murder.png' width='24' height='28'>&nbsp;Asesinatos": L.geoJson(),
+  "<img src='assets/img/marker_rape.png' width='24' height='28'>&nbsp;Violaciones": L.geoJson(),
+  "<img src='assets/img/marker_theft.png' width='24' height='28'>&nbsp;Robos": L.geoJson(),
+  "<img src='assets/img/marker_aggression.png' width='24' height='28'>&nbsp;Agresión Agravada": L.geoJson(),
+  "<img src='assets/img/marker_break_in.png' width='24' height='28'>&nbsp;Escalamientos": L.geoJson(),
+  "<img src='assets/img/marker_misappropriation.png' width='24' height='28'>&nbsp;Apropiación Ilegal": L.geoJson(),
+  "<img src='assets/img/marker_carjacking.png' width='24' height='28'>&nbsp;Vehículos Hurtados": L.geoJson(),
+   "<img src='assets/img/marker_fire.png' width='24' height='28'>&nbsp;Fuego": L.geoJson()
 };
 
 var layerControl = L.control.layers(baseLayers, overlays, {
   collapsed: isCollapsed
 }).addTo(map);
 
+map.on('overlayadd',function(a){
+  if(a.name=="<img src='assets/img/marker_murder.png' width='24' height='28'>&nbsp;Asesinatos"){
+    markers.addLayer(murders).addTo(map);
+  }
+  else if(a.name=="<img src='assets/img/marker_rape.png' width='24' height='28'>&nbsp;Violaciones"){
+    markers.addLayer(rapes).addTo(map);
+  }
+  else if(a.name=="<img src='assets/img/marker_theft.png' width='24' height='28'>&nbsp;Robos"){
+    markers.addLayer(thefts).addTo(map);
+  }
+  else if(a.name== "<img src='assets/img/marker_aggression.png' width='24' height='28'>&nbsp;Agresión Agravada"){
+    markers.addLayer(aggressions).addTo(map);
+  }
+  else if(a.name== "<img src='assets/img/marker_break_in.png' width='24' height='28'>&nbsp;Escalamientos"){
+    markers.addLayer(breakins).addTo(map);
+  }
+  else if(a.name== "<img src='assets/img/marker_misappropriation.png' width='24' height='28'>&nbsp;Apropiación Ilegal"){
+    markers.addLayer(misappropriations).addTo(map);
+  }
+  else if(a.name== "<img src='assets/img/marker_carjacking.png' width='24' height='28'>&nbsp;Vehículos Hurtados"){
+    markers.addLayer(carjackings).addTo(map);
+  }
+  else if(a.name== "<img src='assets/img/marker_fire.png' width='24' height='28'>&nbsp;Fuego"){
+    markers.addLayer(fires).addTo(map);
+  }
+});
+
+map.on('overlayremove',function(a){
+  if(a.name=="<img src='assets/img/marker_murder.png' width='24' height='28'>&nbsp;Asesinatos"){
+    markers.removeLayer(murders)
+  }
+  else if(a.name=="<img src='assets/img/marker_rape.png' width='24' height='28'>&nbsp;Violaciones"){
+    markers.removeLayer(rapes);
+  }
+  else if(a.name=="<img src='assets/img/marker_theft.png' width='24' height='28'>&nbsp;Robos"){
+    markers.removeLayer(thefts);
+  }
+  else if(a.name== "<img src='assets/img/marker_aggression.png' width='24' height='28'>&nbsp;Agresión Agravada"){
+    markers.removeLayer(aggressions);
+  }
+  else if(a.name== "<img src='assets/img/marker_break_in.png' width='24' height='28'>&nbsp;Escalamientos"){
+    markers.removeLayer(breakins);
+  }
+  else if(a.name== "<img src='assets/img/marker_misappropriation.png' width='24' height='28'>&nbsp;Apropiación Ilegal"){
+    markers.removeLayer(misappropriations);
+  }
+  else if(a.name== "<img src='assets/img/marker_carjacking.png' width='24' height='28'>&nbsp;Vehículos Hurtados"){
+    markers.removeLayer(carjackings);
+  }
+  else if(a.name== "<img src='assets/img/marker_fire.png' width='24' height='28'>&nbsp;Fuego"){
+    markers.removeLayer(fires);
+  }
+});
+
+
 /* Add overlay layers to map after defining layer control to preserver order */
-map.addLayer(municipalities).addLayer(theaters);
+map.addLayer(municipalities).addLayer(heatmap);
 
 var sidebar = L.control.sidebar("sidebar", {
   closeButton: true,
@@ -315,26 +467,6 @@ $(document).one("ajaxStop", function () {
     limit: 10
   });
 
-  var theatersBH = new Bloodhound({
-    name: "Theaters",
-    datumTokenizer: function (d) {
-      return Bloodhound.tokenizers.whitespace(d.name);
-    },
-    queryTokenizer: Bloodhound.tokenizers.whitespace,
-    local: theaterSearch,
-    limit: 10
-  });
-
-  var museumsBH = new Bloodhound({
-    name: "Museums",
-    datumTokenizer: function (d) {
-      return Bloodhound.tokenizers.whitespace(d.name);
-    },
-    queryTokenizer: Bloodhound.tokenizers.whitespace,
-    local: museumSearch,
-    limit: 10
-  });
-
   var geonamesBH = new Bloodhound({
     name: "GeoNames",
     datumTokenizer: function (d) {
@@ -342,7 +474,7 @@ $(document).one("ajaxStop", function () {
     },
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     remote: {
-      url: "http://api.geonames.org/searchJSON?username=bootleaf&featureClass=P&maxRows=5&countryCode=US&name_startsWith=%QUERY",
+      url: "http://api.geonames.org/searchJSON?username=bootleaf&featureClass=P&maxRows=5&country=PR&name_startsWith=%QUERY",
       filter: function (data) {
         return $.map(data.geonames, function (result) {
           return {
@@ -366,8 +498,6 @@ $(document).one("ajaxStop", function () {
     limit: 10
   });
   municipalitiesBH.initialize();
-  theatersBH.initialize();
-  museumsBH.initialize();
   geonamesBH.initialize();
 
   /* instantiate the typeahead UI */
@@ -383,20 +513,6 @@ $(document).one("ajaxStop", function () {
       header: "<h4 class='typeahead-header'>Pueblos</h4>"
     }
   }, {
-    name: "Theaters",
-    displayKey: "name",
-    source: theatersBH.ttAdapter(),
-    templates: {
-      header: "<h4 class='typeahead-header'><img src='assets/img/theater.png' width='24' height='28'>&nbsp;Theaters</h4>"
-    }
-  }, {
-    name: "Museums",
-    displayKey: "name",
-    source: museumsBH.ttAdapter(),
-    templates: {
-      header: "<h4 class='typeahead-header'><img src='assets/img/museum.png' width='24' height='28'>&nbsp;Museums</h4>"
-    }
-  }, {
     name: "GeoNames",
     displayKey: "name",
     source: geonamesBH.ttAdapter(),
@@ -406,24 +522,6 @@ $(document).one("ajaxStop", function () {
   }).on("typeahead:selected", function (obj, datum) {
     if (datum.source === "municipalities") {
       map.fitBounds(datum.bounds);
-    }
-    if (datum.source === "Theaters") {
-      if (!map.hasLayer(theaters)) {
-        map.addLayer(theaters);
-      }
-      map.setView([datum.lat, datum.lng], 17);
-      if (map._layers[datum.id]) {
-        map._layers[datum.id].fire("click");
-      }
-    }
-    if (datum.source === "Museums") {
-      if (!map.hasLayer(museums)) {
-        map.addLayer(museums);
-      }
-      map.setView([datum.lat, datum.lng], 17);
-      if (map._layers[datum.id]) {
-        map._layers[datum.id].fire("click");
-      }
     }
     if (datum.source === "GeoNames") {
       map.setView([datum.lat, datum.lng], 14);
@@ -461,27 +559,23 @@ if (navigator.appName == "Microsoft Internet Explorer") {
 
 //Events handler
 
-var LeafIcon = L.Icon.extend({
-    options: {
-        iconSize:     [32, 32],
-        iconAnchor:   [16, 16],
-    }
+
+
+//---------------------------------
+//Map events
+map.on('zoomend', function(e){
+  zoom = map.getZoom();
+  if (zoom >= 13) {
+
+  };
+
 });
-
-var aggressionIcon = new LeafIcon({iconUrl: '/assets/img/marker_aggression.png'});
-var breakInIcon = new LeafIcon({iconUrl: '/assets/img/marker_break_in.png'});
-var carjackingIcon = new LeafIcon({iconUrl: '/assets/img/marker_carjacking.png'});
-var fireIcon = new LeafIcon({iconUrl: '/assets/img/marker_fire.png'});
-var murderIcon = new LeafIcon({iconUrl: '/assets/img/marker_murder.png'});
-var rapeIcon = new LeafIcon({iconUrl: '/assets/img/marker_rape.png'});
-var theftIcon = new LeafIcon({iconUrl: '/assets/img/marker_theft.png'});
-var misappropriationIcon = new LeafIcon({iconUrl: '/assets/img/marker_misappropriation.png'});
-
 map.on('dragend', function(e){
-  fecthCrimes();
+  //fecthCrimes();
 });
 
-function fecthCrimes(){
+function fecthCrimes(action){
+  $("#loading").show();
   var northEast_bound = map.getBounds()['_northEast'];
   var southWest_bound = map.getBounds()['_southWest'];
 
@@ -493,27 +587,15 @@ function fecthCrimes(){
   var polygon = '['+northEast+','+northWest+','+southWest+','+southEast+']';
   var from_date = '2013-01-01';
   var to_date = '2014-04-22';
-
-  var request = 'http://crimenes-api.herokuapp.com/crimes?polygon='+polygon+'&from_date='+from_date+'&to_date='+to_date;
   
-  $.getJSON(request, function(data) {
-    data = data['features'];
-    L.geoJson(data, {
-      pointToLayer: function (feature, latlng) {
-        switch (feature.properties.delito_type) {
-          case 1: return L.marker(latlng, {icon: murderIcon});
-          case 2: return L.marker(latlng, {icon: rapeIcon});
-          case 3: return L.marker(latlng, {icon: theftIcon});
-          case 4: return L.marker(latlng, {icon: aggressionIcon});
-          case 5: return L.marker(latlng, {icon: breakInIcon});
-          case 6: return L.marker(latlng, {icon: misappropriationIcon});
-          case 7: return L.marker(latlng, {icon: carjackingIcon});
-          case 8: return L.marker(latlng, {icon: fireIcon});
-        }
-      }
-    }).addTo(map);
-
-  });
-
+  if (action == 'initialize') {
+    var is_geojson = false;
+    var request = 'http://crimenes-api.herokuapp.com/crimes?polygon='+polygon+'&from_date='+from_date+'&to_date='+to_date+'&is_geojson='+is_geojson;
+    $.getJSON(request, function(data) {
+      //console.log(data);
+      heatLayer = L.heatLayer(data, {radius: 20, blur:20, max:0.4,maxZoom:18}).addTo(map);
+      $("#loading").hide();
+    });
+  };
 }
 

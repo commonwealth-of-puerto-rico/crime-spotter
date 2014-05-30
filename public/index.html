@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="assets/font-awesome-4.0.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/leaflet-0.7.2/leaflet.css">
     <link rel="stylesheet" href="assets/leaflet-sidebar/L.Control.Sidebar.css">
+    <link rel="stylesheet" href="assets/leaflet-markercluster/MarkerCluster.Default.css">
+    <link rel="stylesheet" href="assets/leaflet-markercluster/MarkerCluster.css">
     <link rel="stylesheet" href="assets/css/main.css">
 
     <link rel="apple-touch-icon" href="assets/img/favicon-152.png">
@@ -39,13 +41,13 @@
       <div class="navbar-collapse collapse">
         <form class="navbar-form navbar-right" role="search">
           <div class="form-group has-feedback navbar-right">
-              <input id="searchbox" type="text" placeholder="Search" class="form-control">
+              <input id="searchbox" type="text" placeholder="Buscar" class="form-control">
               <span id="searchicon" class="fa fa-search form-control-feedback"></span>
           </div>
         </form>
         <ul class="nav navbar-nav">
           <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="$('#aboutModal').modal('show'); return false;"><i class="fa fa-question-circle" style="color: white"></i>&nbsp;&nbsp;About</a></li>
-          <li class="dropdown">
+<!--           <li class="dropdown">
             <a id="toolsDrop" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe" style="color: white"></i>&nbsp;&nbsp;Tools <b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="map.fitBounds(boroughs.getBounds()); return false;"><i class="fa fa-arrows-alt"></i>&nbsp;&nbsp;Zoom To Full Extent</a></li>
@@ -53,8 +55,8 @@
               <li class="divider hidden-xs"></li>
               <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="$('#loginModal').modal('show'); return false;"><i class="fa fa-user"></i>&nbsp;&nbsp;Login</a></li>
             </ul>
-          </li>
-          <li class="dropdown">
+          </li> -->
+ <!--          <li class="dropdown">
               <a class="dropdown-toggle" id="downloadDrop" href="#" role="button" data-toggle="dropdown"><i class="fa fa-cloud-download" style="color: white"></i>&nbsp;&nbsp;Download <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="data/boroughs.geojson" download="boroughs.geojson" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Boroughs</a></li>
@@ -62,8 +64,8 @@
                 <li><a href="data/DOITT_THEATER_01_13SEPT2010.geojson" download="theaters.geojson" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Theaters</a></li>
                 <li><a href="data/DOITT_MUSEUM_01_13SEPT2010.geojson" download="museums.geojson" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Museums</a></li>
               </ul>
-          </li>
-          <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="sidebar.toggle(); return false;"><i class="fa fa-list" style="color: white"></i>&nbsp;&nbsp;Sidebar</a></li>
+          </li> -->
+          <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="sidebar.toggle(); return false;"><i class="fa fa-list" style="color: white"></i>&nbsp;&nbsp;Estadísticas</a></li>
         </ul>
       </div><!--/.navbar-collapse -->
     </div>
@@ -235,6 +237,8 @@
     <script src="assets/typeahead/typeahead.bundle.min.js"></script>
     <script src="assets/leaflet-0.7.2/leaflet.js"></script>
     <script src="assets/leaflet-sidebar/L.Control.Sidebar.js"></script>
+    <script src="assets/leaflet-heat/leaflet-heat.js"></script>
+    <script src="assets/leaflet-markercluster/leaflet.markercluster.js"></script>
     <script src="assets/js/main.js"></script>
   </body>
 </html>
