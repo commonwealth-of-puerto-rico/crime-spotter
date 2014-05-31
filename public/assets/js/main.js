@@ -58,7 +58,7 @@ var murders = L.geoJson(null, {
   },
   onEachFeature: function (feature, layer) {
     if (feature.properties) {
-      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Delito</th><td>" + "Asesinato"+ "</td></tr>" + "<tr><th>Fecha</th><td>" + feature.properties.time + "</td></tr>" + "</table>";
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Delito</th><td>" + "Asesinato"+ "</td></tr>" + "<tr><th>Fecha</th><td>" + moment(feature.properties.time, "YYYY-MM-DD,HH:mm:ss.sssZ").format('LLL');+ "</td></tr>" + "</table>";
       if (document.body.clientWidth <= 767) {
         layer.on({
           click: function (e) {
@@ -93,7 +93,7 @@ var rapes = L.geoJson(null, {
   },
   onEachFeature: function (feature, layer) {
     if (feature.properties) {
-      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Delito</th><td>" + "Violación"+ "</td></tr>" + "<tr><th>Fecha</th><td>" + feature.properties.time + "</td></tr>" + "</table>";
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Delito</th><td>" + "Violación"+ "</td></tr>" + "<tr><th>Fecha</th><td>" + moment(feature.properties.time, "YYYY-MM-DD,HH:mm:ss.sssZ").format('LLL');+ "</td></tr>" + "</table>";
       if (document.body.clientWidth <= 767) {
         layer.on({
           click: function (e) {
@@ -128,7 +128,7 @@ var thefts = L.geoJson(null, {
   },
   onEachFeature: function (feature, layer) {
     if (feature.properties) {
-      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Delito</th><td>" + "Robo"+ "</td></tr>" + "<tr><th>Fecha</th><td>" + feature.properties.time + "</td></tr>" + "</table>";
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Delito</th><td>" + "Robo"+ "</td></tr>" + "<tr><th>Fecha</th><td>" + moment(feature.properties.time, "YYYY-MM-DD,HH:mm:ss.sssZ").format('LLL'); + "</td></tr>" + "</table>";
       if (document.body.clientWidth <= 767) {
         layer.on({
           click: function (e) {
@@ -163,7 +163,7 @@ var aggressions = L.geoJson(null, {
   },
   onEachFeature: function (feature, layer) {
     if (feature.properties) {
-      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Delito</th><td>" + "Agresión Agravada"+ "</td></tr>" + "<tr><th>Fecha</th><td>" + feature.properties.time + "</td></tr>" + "</table>";
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Delito</th><td>" + "Agresión Agravada"+ "</td></tr>" + "<tr><th>Fecha</th><td>" + moment(feature.properties.time, "YYYY-MM-DD,HH:mm:ss.sssZ").format('LLL'); + "</td></tr>" + "</table>";
       if (document.body.clientWidth <= 767) {
         layer.on({
           click: function (e) {
@@ -198,7 +198,7 @@ var breakins = L.geoJson(null, {
   },
   onEachFeature: function (feature, layer) {
     if (feature.properties) {
-      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Delito</th><td>" + "Escalamiento"+ "</td></tr>" + "<tr><th>Fecha</th><td>" + feature.properties.time + "</td></tr>" + "</table>";
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Delito</th><td>" + "Escalamiento"+ "</td></tr>" + "<tr><th>Fecha</th><td>" + moment(feature.properties.time, "YYYY-MM-DD,HH:mm:ss.sssZ").format('LLL'); + "</td></tr>" + "</table>";
       if (document.body.clientWidth <= 767) {
         layer.on({
           click: function (e) {
@@ -233,7 +233,7 @@ var misappropriations = L.geoJson(null, {
   },
   onEachFeature: function (feature, layer) {
     if (feature.properties) {
-      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Delito</th><td>" + "Apropiación Ilegal"+ "</td></tr>" + "<tr><th>Fecha</th><td>" + feature.properties.time + "</td></tr>" + "</table>";
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Delito</th><td>" + "Apropiación Ilegal"+ "</td></tr>" + "<tr><th>Fecha</th><td>" + moment(feature.properties.time, "YYYY-MM-DD,HH:mm:ss.sssZ").format('LLL'); + "</td></tr>" + "</table>";
       if (document.body.clientWidth <= 767) {
         layer.on({
           click: function (e) {
@@ -268,7 +268,7 @@ var carjackings = L.geoJson(null, {
   },
   onEachFeature: function (feature, layer) {
     if (feature.properties) {
-      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Delito</th><td>" + "Vehículo Hurtado"+ "</td></tr>" + "<tr><th>Fecha</th><td>" + feature.properties.time + "</td></tr>" + "</table>";
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Delito</th><td>" + "Vehículo Hurtado"+ "</td></tr>" + "<tr><th>Fecha</th><td>" + moment(feature.properties.time, "YYYY-MM-DD,HH:mm:ss.sssZ").format('LLL'); + "</td></tr>" + "</table>";
       if (document.body.clientWidth <= 767) {
         layer.on({
           click: function (e) {
@@ -303,7 +303,7 @@ var fires = L.geoJson(null, {
   },
   onEachFeature: function (feature, layer) {
     if (feature.properties) {
-      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Delito</th><td>" + "Fuego"+ "</td></tr>" + "<tr><th>Fecha</th><td>" + feature.properties.time + "</td></tr>" + "</table>";
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Delito</th><td>" + "Fuego"+ "</td></tr>" + "<tr><th>Fecha</th><td>" + moment(feature.properties.time, "YYYY-MM-DD,HH:mm:ss.sssZ").format('LLL'); + "</td></tr>" + "</table>";
       if (document.body.clientWidth <= 767) {
         layer.on({
           click: function (e) {
@@ -328,19 +328,89 @@ var fires = L.geoJson(null, {
 var markers = L.markerClusterGroup();
 var crime_collection_request = "http://crimenes-api.herokuapp.com/crimes?polygon=[[-64.500732421875,19.06990562064469],[-68.01361083984375,19.06990562064469],[-68.01361083984375,17.368988699356095],[-64.500732421875,17.368988699356095]]&from_date=2013-01-01&to_date=2014-04-22&is_geojson=true";
 $.getJSON(crime_collection_request, function (data) {
+
   murders.addData(data['murder']);
+  var murder_total = data['murder']['features'].length;
+  $("#murder_total").html("<b>"+murder_total+"</b>");
+
+  var rape_total = data['rape']['features'].length;
   rapes.addData(data['rape']);
+  $("#rape_total").html("<b>"+rape_total+"</b>");
+
+  var theft_total = data['theft']['features'].length;
   thefts.addData(data['theft']);
+  $("#theft_total").html("<b>"+theft_total+"</b>");
+
+  var aggression_total = data['aggression']['features'].length;
   aggressions.addData(data['aggression']);
+  $("#aggression_total").html("<b>"+aggression_total+"</b>");
+
+  var breakin_total = data['break_in']['features'].length;
   breakins.addData(data['break_in']);
+  $("#breakin_total").html("<b>"+breakin_total+"</b>");
+
+  var misappropriation_total = data['misappropriation']['features'].length;
   misappropriations.addData(data['misappropriation']);
+  $("#misappropriation_total").html("<b>"+misappropriation_total+"</b>");
+
+  var carjacking_total = data['carjacking']['features'].length;
   carjackings.addData(data['carjacking']);
+  $("#carjacking_total").html("<b>"+carjacking_total+"</b>");
+
+  var fire_total = data['fire']['features'].length;
   fires.addData(data['fire']);
+  $("#fire_total").html("<b>"+fire_total+"</b>");
+
+  $("#total_crimes").html("<b>"+(murder_total+rape_total+theft_total+aggression_total+breakin_total+misappropriation_total+carjacking_total+fire_total)+"</b>");
+  //Create chart
+
+  var data = [
+    {
+      name: 'Asesinato',
+      y: murder_total,
+      color: '#F2142B'
+    },
+    {
+      name: 'Violación',
+      y: rape_total,
+      color: '#F10088'
+    },
+    {
+      name: 'Robo',
+      y: theft_total,
+      color: '#89C557'
+    },
+    {
+      name: 'Agresión<br>Agravada',
+      y: aggression_total,
+      color: '#FFAE55'
+    },
+    {
+      name: 'Escalamiento',
+      y: breakin_total,
+      color: '#00ABDC'
+    },
+    {
+      name: 'Vehículo<br>Hurtado',
+      y: carjacking_total,
+      color: '#04B67A'
+    },
+    {
+      name: 'Apropiación<br>Ilegal',
+      y: misappropriation_total,
+      sliced: true,
+      selected: true,
+      color: '#8D5D40'
+    },
+    {
+      name: 'Fuego',
+      y: fire_total,
+      color: '#F65736'
+    }
+  ];
+  drawCrimeChart(data);
+
 });
-
-
-
-
 
 
 var heatmap = L.heatLayer(null, {radius: 20, blur:20, max:0.4,maxZoom:18});
@@ -599,3 +669,39 @@ function fecthCrimes(action){
   };
 }
 
+
+
+
+function drawCrimeChart(data){
+  $('#container').highcharts({
+      chart: {
+          plotBackgroundColor: null,
+          plotBorderWidth: null,
+          plotShadow: false
+      },
+      title: {
+          text: 'Tipo de Crimen'
+      },
+      tooltip: {
+        pointFormat: '<b>{point.y}</b>'
+      },
+      plotOptions: {
+          pie: {
+              allowPointSelect: true,
+              cursor: 'pointer',
+              dataLabels: {
+                  enabled: true,
+                  format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                  style: {
+                      color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                  }
+              }
+          }
+      },
+      series: [{
+          type: 'pie',
+          name: 'Crimen',
+          data: data
+      }]
+  });
+}
