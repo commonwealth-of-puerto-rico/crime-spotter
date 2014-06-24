@@ -1,5 +1,8 @@
 var express = require('express');
+var logfmt = require("logfmt");
 var app = express();
+
+app.use(logfmt.requestLogger());
 
 // Configuration
 app.configure(function() {
@@ -14,7 +17,7 @@ app.get('*', function(req, res) {
     res.sendfile('./public/index.html');				
 });
 
-// Listen to port 8080 and run the server
-app.listen(8080, function() {
-    console.log('App listening on port 8080');
+var port = Number(process.env.PORT || 5000);
+app.listen(port, function() {
+  console.log("Listening on " + port);
 });
