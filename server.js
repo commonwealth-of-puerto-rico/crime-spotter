@@ -5,12 +5,7 @@ var app = express();
 app.use(logfmt.requestLogger());
 
 // Configuration
-app.configure(function() {
-    // Static files directory
-    app.use(express.static(__dirname + '/public'));
-    // Show log for all requests in console	
-    app.use(express.logger('dev'));				
-});
+app.use(express.static(__dirname + '/public'));
 
 // Load index page
 app.get('*', function(req, res) {						
