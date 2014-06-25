@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "express": "^4.4.4",
-    "logfmt": "~1.1.2"
+    "logfmt": "~1.1.2",
+    "nodemailer": "~0.7.0",
+    "body-parser": "~1.4.3"
   },
   "engines": {
     "node": "0.10.x"
