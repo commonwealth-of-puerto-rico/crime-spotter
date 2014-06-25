@@ -327,7 +327,30 @@ var fires = L.geoJson(null, {
 
 var markers = L.markerClusterGroup();
 var crime_collection_request = "http://crimenes-api.herokuapp.com/crimes?polygon=[[-64.500732421875,19.06990562064469],[-68.01361083984375,19.06990562064469],[-68.01361083984375,17.368988699356095],[-64.500732421875,17.368988699356095]]&from_date=2013-01-01&to_date=2014-04-22&is_geojson=true";
+
+/*
+var geoData = function(data) {
+  // GeoData extraction algorithm
+  var geoData = [];
+  _.map(geoData, function(data) {
+    _.map(data["features"], function(geometry) {
+      var coords = _.map(geometry, "coordinates");
+      geoData.push(coords[1]);
+    });
+  }
+}
+*/
+var heatmap = L.heatLayer(null, {radius: 20, blur:20, max:0.4,maxZoom:18});
+heatmap.setLatLngs([]);
 $.getJSON(crime_collection_request, function (data) {
+  // Geodata Extraction
+  _.map(data, function(geoData) { 
+    _.map(geoData["features"], function(geometry) {
+     heatmap.addLatLng(geometry["geometry"]["coordinates"]);
+    });
+  });
+
+  
 
   murders.addData(data['murder']);
   var murder_total = data['murder']['features'].length;
@@ -413,11 +436,8 @@ $.getJSON(crime_collection_request, function (data) {
 });
 
 
-var heatmap = L.heatLayer(null, {radius: 20, blur:20, max:0.4,maxZoom:18});
-var initial_request = "http://crimenes-api.herokuapp.com/crimes?polygon=[[-64.500732421875,19.06990562064469],[-68.01361083984375,19.06990562064469],[-68.01361083984375,17.368988699356095],[-64.500732421875,17.368988699356095]]&from_date=2013-01-01&to_date=2014-04-22&is_geojson=false";
-$.getJSON(initial_request, function(data) {
-  heatmap.setLatLngs(data);
-});
+//var heatmap = L.heatLayer(null, {radius: 20, blur:20, max:0.4,maxZoom:18});
+//heatmap.setLatLngs(data);
 
 map = L.map("map", {
   center: [18.258720, -66.473524],
