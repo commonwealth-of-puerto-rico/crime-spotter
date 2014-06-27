@@ -421,14 +421,17 @@ $.getJSON(crime_collection_request, function (data) {
 
 });
 
+//Map setup variables
+var minZoom = 0;
 
 if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-  alert('I am mobile');
+  minZoom = 12;
 }
 
 map = L.map("map", {
   center: [18.258720, -66.473524],
-  layers: [mapquestOSM]
+  layers: [mapquestOSM],
+  minZoom: minZoom
 });
 
 /* Larger screens get expanded layer control */
