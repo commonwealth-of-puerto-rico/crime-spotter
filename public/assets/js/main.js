@@ -333,8 +333,8 @@ $.getJSON(crime_collection_request, function (data) {
   // Geodata Extraction
   _.map(data, function(geoData) { 
     _.map(geoData["features"], function(geometry) {
-      point = geometry["geometry"]["coordinates"];
-      heatmap.addLatLng([point[1],point[0]]);
+      var point = geometry["geometry"]["coordinates"];
+      heatmap.addLatLng(point.reverse());
     });
   });
   
