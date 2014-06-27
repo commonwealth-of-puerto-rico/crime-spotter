@@ -667,7 +667,7 @@ function fecthCrimes(action){
   
   if (action == 'initialize') {
     var is_geojson = false;
-    var request = 'http://crimenes-api.herokuapp.com/crimes?polygon='+polygon+'&from_date='+from_date+'&to_date='+to_date+'&is_geojson='+is_geojson;
+    var request = 'http://localhost:3000/crimes?polygon='+polygon+'&from_date='+from_date+'&to_date='+to_date;
     $.getJSON(request, function(data) {
       //console.log(data);
       heatLayer = L.heatLayer(data, {radius: 20, blur:20, max:0.4,maxZoom:18}).addTo(map);
