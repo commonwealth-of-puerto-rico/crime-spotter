@@ -346,12 +346,11 @@ $.getJSON(crime_collection_request, function (data) {
   // Geodata Extraction
   _.map(data, function(geoData) { 
     _.map(geoData["features"], function(geometry) {
-     heatmap.addLatLng(geometry["geometry"]["coordinates"]);
+      point = geometry["geometry"]["coordinates"];
+      heatmap.addLatLng([point[1],point[0]]);
     });
   });
-
   
-
   murders.addData(data['murder']);
   var murder_total = data['murder']['features'].length;
   $("#murder_total").html("<b>"+murder_total+"</b>");
